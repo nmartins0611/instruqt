@@ -93,14 +93,6 @@
       ansible.builtin.unarchive:
         src: /tmp/setup-scripts/terraform-ansible/files/terraform-ansible.tar.gz
         dest: "/tmp/terraform_lab/"
-        remote_src: yes
-
-    - name: Copy lab files
-      ansible.builtin.copy:
-        src: /tmp/terraform_lab/Terraform-Ansible/lab-sections/
-        dest: /home/rhel/lab_exercises
-        remote_src: yes
-        directory_mode: yes
 
     - name: Add remote origin to repo
       ansible.builtin.command:
