@@ -91,10 +91,15 @@
 
     - name: Extract initial repo files
       ansible.builtin.unarchive:
-        src: /tmp/setup-scripts/terraform-ansible/files/terraform_ansible.tgz
+        src: /tmp/setup-scripts/terraform-ansible/files/terraform-ansible.tar.gz
         dest: "/tmp/terraform_lab/"
-   #     creates: /root/acme_corp/app
-        remote_src: true
+
+    - name: Copy lab files
+      ansible.builtin.copy:
+        src: /tmp/terraform_lab/Terraform-Ansible/lab-sections/
+        dest: /home/rhel/lab_exercises
+        remote_src: yes
+        directory_mode: yes
 
     - name: Add remote origin to repo
       ansible.builtin.command:
