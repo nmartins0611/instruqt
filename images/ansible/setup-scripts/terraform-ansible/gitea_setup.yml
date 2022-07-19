@@ -51,3 +51,52 @@
         url_password: "{{ student_password }}"
         url_username: "{{ student_user }}"
         status_code: [201, 409]
+
+    - name: Configre lab content
+      block:
+
+        - name: update build repo
+          ansible.builtin.shell:
+            shell: git config --global user.name "Student" && git config --global user.email "student@acme.corp"
+
+        - name: Clone public content
+          repo: https://github.com/nmartins0611/instruqt_labs.git
+          dest: /tmp/
+          clone: yes
+
+        - name: Clone gitea build repo
+          ansible.builtin.git:
+           repo: http://gitea:3000/student/terraform_builds.git
+           dest: /tmp/
+           clone: yes
+
+        - name: Clone gitea provision repo
+          ansible.builtin.git:
+           repo: http://gitea:3000/student/terraform_prov.git
+           dest: /tmp/
+           clone: yes
+
+        - name: Update repo for builds
+          ansible.builtin.copy:
+           src: /tmp/instruqt_labs/build_repo/
+           dest: /tmp/terraform_builds/
+
+        - name: Update Terraform build repo
+          ignore_errors: true 
+          ansible.builtin.shell: git add * && git commit -m "Building Terraform Lab Files" && git push
+            args:
+              chdir: /tmp/terraform_builds/ 
+
+        - name: Update repo for AAP
+          ansible.builtin.copy:
+           src: /tmp/instruqt_labs/prov_repo/
+           dest: /tmp/terraform_prov/
+
+        - name: Update Terraform build repo
+          ignore_errors: true 
+          ansible.builtin.shell: git add * && git commit -m "Building Terraform Lab Files" && git push
+            args:
+              chdir: /tmp/terraform_prov/
+
+
+    
