@@ -91,7 +91,7 @@
 
     - name: Extract initial repo files
       ansible.builtin.unarchive:
-        src: /tmp/setup-scripts/devops-controller/files/terraform_ansible.tgz
+        src: /tmp/setup-scripts/terraform-ansible/files/terraform_ansible.tgz
         dest: "/tmp/terraform_lab/"
    #     creates: /root/acme_corp/app
         remote_src: true
