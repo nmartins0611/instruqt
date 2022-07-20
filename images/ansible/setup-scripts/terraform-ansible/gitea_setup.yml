@@ -91,7 +91,7 @@
 
     - name: Extract initial repo files
       ansible.builtin.unarchive:
-        src: /tmp/setup-scripts/terraform-ansible/files/terraform-ansible.tar.gz
+        src: /tmp/setup-scripts/terraform-ansible/files/terraform_files.tar.gz
         dest: "/tmp/terraform_lab/"
 
     - name: Add remote origin to repo
@@ -106,3 +106,4 @@
         - "git add ."
         - "git commit -m'Initial commit'"
         - "git push -u origin main --force"
+
