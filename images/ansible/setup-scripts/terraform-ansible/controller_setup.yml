@@ -139,7 +139,7 @@
         - controller-config
         - controller-ees
 
-    - name: Pull Instruqt DevOps EE
+    - name: Pull Instruqt Terraform EE
       containers.podman.podman_image:
         name: "quay.io/acme_corp/terraform_ee"
       become_user: awx
