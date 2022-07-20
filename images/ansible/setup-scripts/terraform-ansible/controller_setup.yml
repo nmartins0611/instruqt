@@ -209,7 +209,7 @@
       awx.awx.project:
         name: "{{ lab_project_name }}"
         scm_type: git
-        scm_url: "http://gitea:3000/{{ student_user }}/terraform-lab.git"
+        scm_url: "http://gitea:3000/{{ student_user }}/terraform_lab.git"
         organization: "{{ lab_organization }}"
         scm_update_on_launch: false
         scm_update_cache_timeout: 60
