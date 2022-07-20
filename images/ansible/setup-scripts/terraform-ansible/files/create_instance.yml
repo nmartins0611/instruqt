@@ -57,20 +57,20 @@
     #     src: /{{ templates_dir }}/terraform_ignore
     #     dest: /{{ working_dir }}/{{  my_terraform_build }}/.gitignore
 
-     - name: Creating Terraform IoC
-       block:
-         - name: Initialize Terraform Provider
-           community.general.terraform:
-            project_path: /{{ working_dir }}/{{ my_terraform_build }}
-            state: absent
-            force_init: true
+    #  - name: Creating Terraform IoC
+    #    block:
+    #      - name: Initialize Terraform Provider
+    #        community.general.terraform:
+    #         project_path: /{{ working_dir }}/{{ my_terraform_build }}
+    #         state: absent
+    #         force_init: true
     
-         - name: Deploy Terraform Instance
-           community.general.terraform:
-            project_path: /{{ working_dir }}/{{ my_terraform_build }}
-            state: present
-           register: deployed_tf
+    #      - name: Deploy Terraform Instance
+    #        community.general.terraform:
+    #         project_path: /{{ working_dir }}/{{ my_terraform_build }}
+    #         state: present
+    #        register: deployed_tf
 
-         - name: Encrypt variables and sensitive data
-           command: ansible-vault encrypt /{{ working_dir }}/{{ my_terraform_build }}/variables.tf --vault-password-file /opt/keep_secrets.txt
+        #  - name: Encrypt variables and sensitive data
+        #    command: ansible-vault encrypt /{{ working_dir }}/{{ my_terraform_build }}/variables.tf --vault-password-file /opt/keep_secrets.txt
 
