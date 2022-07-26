@@ -10,4 +10,4 @@ ansible-playbook /tmp/setup-scripts/terraform-ansible/gitea_setup.yml -e @/tmp/s
 ansible-playbook /tmp/setup-scripts/terraform-ansible/controller_setup.yml -e @/tmp/setup-scripts/terraform-ansible/track_vars.yml -i /tmp/setup-scripts/terraform-ansible/inventory.ini
 
 # AWS - default setup
-aws ec2 create-default-vpc
+#aws ec2 create-default-vpc
