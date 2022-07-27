@@ -11,7 +11,7 @@ ansible-playbook /tmp/setup-scripts/terraform-ansible/controller_setup.yml -e @/
 
 # AWS - default setup
 
-export AWS_DEFAULT_REGION=us-east-1
+#export AWS_DEFAULT_REGION=us-east-1
 
 # Create default vpc
-aws ec2 create-default-vpc
+#aws ec2 create-default-vpc
