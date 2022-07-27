@@ -8,10 +8,3 @@ ansible-playbook /tmp/setup-scripts/terraform-ansible/gitea_setup.yml -e @/tmp/s
 
 # Configure controller environment 
 ansible-playbook /tmp/setup-scripts/terraform-ansible/controller_setup.yml -e @/tmp/setup-scripts/terraform-ansible/track_vars.yml -i /tmp/setup-scripts/terraform-ansible/inventory.ini
-
-# AWS - default setup
-
-#export AWS_DEFAULT_REGION=us-east-1
-
-# Create default vpc
-#aws ec2 create-default-vpc
