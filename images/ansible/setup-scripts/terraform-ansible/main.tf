@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "eu-west-2"
+  region = "us-east-1"
 }
 
 resource "aws_security_group" "terraform_group" {
@@ -32,6 +32,6 @@ resource "aws_security_group" "terraform_group" {
 }
 
 resource "aws_instance" "basic_rhel" {
-  ami           = "ami-035c5dc086849b5de"
+  ami           = "ami-06640050dc3f556bb"
   instance_type = "t2.micro"
 }
