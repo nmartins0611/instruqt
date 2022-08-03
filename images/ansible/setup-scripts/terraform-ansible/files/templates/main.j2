@@ -21,14 +21,14 @@ provider "aws" {
 
  resource "aws_subnet" "external_subnet" {   
    vpc_id =  aws_vpc.Main.id
-   cidr_block = "${var.public_subnets}"      
+   cidr_block = "${var.external_subnet}"      
  }
  
  # Create internal subnet 
 
  resource "aws_subnet" "internal_subnet" {
    vpc_id =  aws_vpc.Main.id
-   cidr_block = "${var.private_subnets}"          
+   cidr_block = "${var.internal_subnet}"          
  }
  
 # Routing table for external
