@@ -9,6 +9,7 @@
     terraform_sec: terraform_sec
     instruqt_tf_build: myTest
     working_dir: /tmp/srv/build_repo/
+    templates_dir: /tmp/template
     survey_j2: survey_spec.json.j2
     survey_file: remove_vm_survey.json
 
@@ -43,10 +44,10 @@
 
 #### Terraform Deploy
 
-     - name: Create gitignore for Terraform working files
-       ansible.builtin.copy:
-        src: /{{ templates_dir }}/terraform_ignore
-        dest: /{{ working_dir }}/{{ instruqt_tf_build }}/.gitignore
+    #  - name: Create gitignore for Terraform working files
+    #    ansible.builtin.copy:
+    #     src: /{{ templates_dir }}/terraform_ignore
+    #     dest: /{{ working_dir }}/{{ instruqt_tf_build }}/.gitignore
 
      - name: Creating Terraform IoC
        block:
