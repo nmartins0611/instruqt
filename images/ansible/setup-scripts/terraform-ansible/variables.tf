@@ -11,11 +11,11 @@
   default = "10.0.0.192/26" # Internal Subnet
 }
  variable "aws_security_group" {
-  default = "{{ terraform_sec }}" # AWS Security Group name
+  default = "terraform_instruqt"# AWS Security Group name
 }
 variable "instance_names" {
-  default = "{{ instance_name }}" # AWS Name of instance
+  default = "test_terraform" # AWS Name of instance
 }
 variable "instance_type" {
-  default = "{{ instance_type }}" # AWS Instance type
+  default = "t2.micro" # AWS Instance type
 }

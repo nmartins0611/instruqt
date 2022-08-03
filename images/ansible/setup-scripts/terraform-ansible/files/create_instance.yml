@@ -3,22 +3,22 @@
   hosts: localhost
   connection: local
   vars:
-   access_key: XXXX
-   secret_key: XXXX
-   region: XXXX
-   token: XXXX
-   controller_ssh_key: XXXX
-   instance_names: XXXX
-   instance_roles: XXXX
-   instance_type: XXXX
-   ami_number: ami-0ad8ecac8af5fc52b
-   vpc_id: vpc-63f9df0b
-   aws_subnet: subnet-1fd6fe76
-   my_terraform_build: myTest
-   terraform_group_sec:
-   working_dir: /tmp/srv/build_repo/
-   survey_j2: survey_spec.json.j2
-   survey_file: remove_vm_survey.json
+    access_key: XXXX
+    secret_key: XXXX
+    region: XXXX
+    token: XXXX
+    controller_ssh_key: XXXX
+    instance_names: XXXX
+    instance_roles: XXXX
+    instance_type: t2.micro
+    ami_number: ami-0ad8ecac8af5fc52b
+    vpc_id: vpc-63f9df0b
+    aws_subnet: subnet-1fd6fe76
+    my_terraform_build: myTest
+    terraform_group_sec:
+    working_dir: /tmp/srv/build_repo/
+    survey_j2: survey_spec.json.j2
+    survey_file: remove_vm_survey.json
 
 
   tasks:
@@ -37,8 +37,8 @@
 
      - name: Create cloud-init for Terraform manifest
        ansible.builtin.copy:
-       src: cloud-init.conf
-       dest: /{{ working_dir }}/{{ my_terraform_build }}/cloud-init.conf
+        src: cloud-init.conf
+        dest: /{{ working_dir }}/{{ my_terraform_build }}/cloud-init.conf
 
      - name: Create main Terraform manifest
        template:

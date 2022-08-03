@@ -1,30 +1,21 @@
-variable "access_key" {
-  default = "{{ access_key }}"
+ variable "region" {
+  default = "us-east-1"  # Default Region
 }
-variable "secret_key" {
-  default = "{{ secret_key }}"
+ variable "main_vpc_cidr" {
+  default = "10.0.0.0/24" # Default VPC
 }
-variable "region" {
-  default = "{{ region }}"
+ variable "external_subnet" {
+  default = "10.0.0.128/26" # External Subnet
 }
-#variable "token" {
-#  default = "{{ token }}"
-#}
-variable "vpc_id" {
-  default = "{{ vpc_id }}"
+ variable "internal_subnet" {
+  default = "10.0.0.192/26" # Internal Subnet
 }
-variable "aws_subnet" {
-    default = "{{ aws_subnet }}"
-}
-variable "aws_security_group" {
-    default = "{{ terraform_group_sec }}"
-}
-variable "controller_ssh_key" {
-    default = "{{ controller_ssh_key }}"
+ variable "aws_security_group" {
+  default = "{{ terraform_sec }}" # AWS Security Group name
 }
 variable "instance_names" {
-  default = "{{ instance_names }}"
+  default = "{{ instance_name }}" # AWS Name of instance
 }
-variable "instance_roles" {
-  default = "{{ instance_roles }}"
+variable "instance_type" {
+  default = "{{ instance_type }}" # AWS Instance type
 }
