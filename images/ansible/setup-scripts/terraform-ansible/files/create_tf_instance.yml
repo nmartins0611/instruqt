@@ -65,7 +65,7 @@
    
      - name: Update Terraform build repo
        ignore_errors: true 
-       shell: git add {{ instruqt_ft_build }} && git commit -m "Adding Terraform Build" && git push
+       shell: git add {{ instruqt_tf_build }} && git commit -m "Adding Terraform Build" && git push
        args:
          chdir: /tmp/srv
        tags:
