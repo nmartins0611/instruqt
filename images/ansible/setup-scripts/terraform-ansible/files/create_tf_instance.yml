@@ -1,0 +1,71 @@
+---
+- name: Create Terraform manifests and components
+  hosts: localhost
+  connection: local
+  
+  vars:
+    instance_type: t2.micro
+    instance_name: terrafor_dev
+    terraform_sec: terraform_sec
+    instruqt_tf_build: myTest
+    working_dir: /tmp/srv/build_repo/
+    survey_j2: survey_spec.json.j2
+    survey_file: remove_vm_survey.json
+
+  tasks:
+
+     - name: Clone Terraform Manifests and build repo
+       ansible.builtin.git:
+        repo: "http://gitea:3000/student/terraform_lab.git"
+        dest: /tmp/srv
+        clone: yes
+
+     - name: Create Terraform project 
+       ansible.builtin.file:
+        path: /{{ working_dir }}/{{ instruqt_tf_build }}
+        state: directory
+        mode: '755'
+
+     - name: Create cloud-init for Terraform manifest
+       ansible.builtin.copy:
+        src: cloud-init.conf
+        dest: /{{ working_dir }}/{{ instruqt_tf_build }}/cloud-init.conf
+
+     - name: Create main Terraform manifest
+       template:
+        src: main.j2
+        dest: /{{ working_dir }}/{{ instruqt_tf_build }}/main.tf
+
+     - name: Create variable Terraform manifest
+       template:
+        src: variables.j2
+        dest: /{{ working_dir }}/{{ instruqt_tf_build }}/variables.tf 
+
+#### Terraform Deploy
+
+     - name: Create gitignore for Terraform working files
+       ansible.builtin.copy:
+        src: /{{ templates_dir }}/terraform_ignore
+        dest: /{{ working_dir }}/{{ instruqt_tf_build }}/.gitignore
+
+     - name: Creating Terraform IoC
+       block:
+         - name: Initialize Terraform Provider
+           community.general.terraform:
+            project_path: /{{ working_dir }}/{{ instruqt_tf_build }}
+            state: absent
+            force_init: true
+    
+         - name: Deploy Terraform Instance
+           community.general.terraform:
+            project_path: /{{ working_dir }}/{{ instruqt_tf_build }}
+            state: present
+           register: deployed_tf
+   
+     - name: Update Terraform build repo
+       ignore_errors: true 
+       shell: git add {{ instruqt_ft_build }} && git commit -m "Adding Terraform Build" && git push
+       args:
+         chdir: /tmp/srv
+       tags:
+         - sync
