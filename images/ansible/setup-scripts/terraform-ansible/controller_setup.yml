@@ -151,35 +151,6 @@
         - controller-config
         - controller-ees
 
-
-#     - name: Create hosts
-#       awx.awx.host:
-#         name: "{{ item.lab_host_name }}"
-#         inventory: "{{ item.lab_host_inventory }}"
-#         state: present
-#         controller_oauthtoken: "{{ auth_token }}"
-#         validate_certs: false
-#         variables:  "{{ item.lab_host_vars }}"
-#       loop: "{{ lab_hosts }}"
-#       tags:
-#         - controller-config
-#         - controller-hosts
-    
-#     - name: Create groups
-#       awx.awx.group:
-#         name: "{{ item.group_name }}"
-#         description: "{{ item.group_desc }}"
-#         state: present
-#         inventory: "{{ item.group_inventory }}"
-#         hosts: "{{ item.group_hosts }}"
-#         controller_oauthtoken: "{{ auth_token }}"
-#         controller_host: "{{ controller_hostname }}"
-#         validate_certs: "{{ controller_validate_certs }}"
-#       loop: "{{ lab_groups }}"
-#       tags:
-#         - controller-config
-#         - controller-groups
-
     - name: Add the lab ssh credential
       awx.awx.credential:
         name: "{{ lab_credential_name }}"
@@ -251,8 +222,8 @@
 #       awx.awx.job_template:
 #         name: "Deploy Instance with Terraform"
 #         state: present
-#         execution_environment: "terraform_ee"
-#   #      become_enabled: "{{ item.jt_become }}"
+#         execution_environment: "ACME Terraform EE"
+#         become_enabled: "{{ item.jt_become }}"
 #         project: "{{ lab_project_name }}"
 #         credential: "{{ lab_credential_name }}"
 #         inventory: "{{  item.jt_inventory }}"
@@ -310,3 +281,5 @@
 #       tags:
 #         - controller-config
 #         - controller-objects
+
+
