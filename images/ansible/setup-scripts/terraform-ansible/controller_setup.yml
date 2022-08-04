@@ -233,7 +233,7 @@
         - controller-objects
 
     - name: Add an inventory source
-      inventory_source:
+      awx.awx.inventory_source:
        name: "aws-source"
        description: AWS inventory source
        inventory: "ACME AWS"
