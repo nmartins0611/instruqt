@@ -244,6 +244,8 @@
        source: ec2
        source_vars:
         private: false
+       controller_oauthtoken: "{{ auth_token }}"
+       validate_certs: false
 
 #     - name: Create job templates
 #       awx.awx.job_template:
