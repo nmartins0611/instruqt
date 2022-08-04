@@ -8,7 +8,7 @@
     instance_name: terrafor_dev
     terraform_sec: terraform_sec
     instruqt_tf_build: myTest
-    working_dir: /tmp/srv/build_repo/
+    working_dir: /tmp/srv/
     templates_dir: /tmp/template
     survey_j2: survey_spec.json.j2
     survey_file: remove_vm_survey.json
@@ -17,7 +17,7 @@
 
      - name: Clone Terraform Manifests and build repo
        ansible.builtin.git:
-        repo: "http://gitea:3000/student/terraform_lab.git"
+        repo: "http://gitea:3000/student/terraform_builds.git"
         dest: /tmp/srv
         clone: yes
 
@@ -44,7 +44,7 @@
 
 #### Terraform Deploy
 
-    #  - name: Create gitignore for Terraform working files
+    # - name: Create gitignore for Terraform working files
     #    ansible.builtin.copy:
     #     src: /{{ templates_dir }}/terraform_ignore
     #     dest: /{{ working_dir }}/{{ instruqt_tf_build }}/.gitignore
