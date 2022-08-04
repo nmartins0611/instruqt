@@ -24,8 +24,8 @@ lab_credential_name: "ACME Corp Machine Credential"
 lab_organization: "ACME Corp"
 lab_project_name: "ACME Corp Repo"
 lab_inventories:
-  - name: "ACME Corp DC"
-    description: "ACME Corp DC"
+  - name: "ACME AWS"
+    description: "ACME AWS INVENTORY"
 lab_hosts:
   - lab_host_name: "controller.acme.example.com"
     lab_host_inventory: "ACME Corp DC"

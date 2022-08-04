@@ -151,18 +151,6 @@
         - controller-config
         - controller-ees
 
-#     - name: Add lab inventories
-#       awx.awx.inventory:
-#         name: "{{ item.name }}"
-#         description: "{{ item.description }}"
-#         organization: "{{ lab_organization }}"
-#         state: present
-#         controller_oauthtoken: "{{ auth_token }}"
-#         validate_certs: false
-#       loop: "{{ lab_inventories }}"
-#       tags:
-#         - controller-config
-#         - controller-objects
 
 #     - name: Create hosts
 #       awx.awx.host:
@@ -231,6 +219,32 @@
         - controller-config
         - controller-project
 
+    - name: Add aws inventories
+      awx.awx.inventory:
+        name: "{{ item.name }}"
+        description: "{{ item.description }}"
+        organization: "{{ lab_organization }}"
+        state: present
+        controller_oauthtoken: "{{ auth_token }}"
+        validate_certs: false
+      loop: "{{ lab_inventories }}"
+      tags:
+        - controller-config
+        - controller-objects
+
+    - name: Add an inventory source
+      inventory_source:
+       name: "aws-source"
+       description: AWS inventory source
+       inventory: "ACME AWS"
+       credential: "AWS"
+       overwrite: True
+       update_on_launch: True
+       organization: Default
+       source: ec2
+       source_vars:
+        private: false
+
 #     - name: Create job templates
 #       awx.awx.job_template:
 #         name: "Deploy Instance with Terraform"
@@ -282,3 +296,15 @@
 #         - controller-config
 #         - controller-users
 
+#     - name: Add lab inventories
+#       awx.awx.inventory:
+#         name: "{{ item.name }}"
+#         description: "{{ item.description }}"
+#         organization: "{{ lab_organization }}"
+#         state: present
+#         controller_oauthtoken: "{{ auth_token }}"
+#         validate_certs: false
+#       loop: "{{ lab_inventories }}"
+#       tags:
+#         - controller-config
+#         - controller-objects
