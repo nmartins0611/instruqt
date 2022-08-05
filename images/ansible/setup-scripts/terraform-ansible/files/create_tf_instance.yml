@@ -64,7 +64,10 @@
             project_path: /{{ working_dir }}/{{ instruqt_tf_build }}
             state: present
            register: deployed_tf
-   
+
+     - name: Configure Git details
+       shell: git config --global user.name "nuno.martins" && git config --global user.email "nmartins@redhat.com"
+    
      - name: Update Terraform build repo
        ignore_errors: true 
        shell: git add {{ instruqt_tf_build }} && git commit -m "Adding Terraform Build" && git push
