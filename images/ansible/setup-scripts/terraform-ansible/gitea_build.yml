@@ -17,7 +17,7 @@
           name: terraform_builds
           auto_init: false
           private: false
-        force_basic_auth: true
+        force_basic_auth: false
         url_password: "{{ student_password }}"
         url_username: "{{ student_user }}"
         status_code: [201, 409]
