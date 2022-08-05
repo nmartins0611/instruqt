@@ -46,8 +46,10 @@
 
      - name: Create gitignore for Terraform working files
        ansible.builtin.copy:
-        src: terraform_ignore
         dest: /{{ working_dir }}/{{ instruqt_tf_build }}/.gitignore
+        content: |
+          .terraform
+          .terraform.lock.hcl
 
      - name: Creating Terraform IoC
        block:
