@@ -84,7 +84,7 @@
             name: "Remove Terraform Manifest"
             organization: "TMM-acme"
             state: present
-            tower_config_file: "tower_cli.cfg"
+            tower_config_file: "controller.cfg"
             inventory: "terraform_nodes_aws"
             survey: "{{ slurpfile['content'] | b64decode }}"
             survey_enabled: true
