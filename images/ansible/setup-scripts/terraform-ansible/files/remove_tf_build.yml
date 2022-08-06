@@ -4,11 +4,15 @@
   connection: local
   #gather_facts: true
   #become: true
-  vars:
-    my_terraform_build: test_terra_nuno4
-    working_dir: /tmp/srv
-    survey_j2: survey_spec.json.j2
-    survey_file: remove_vm_survey.json
+
+  vars_files:
+    - vars_of_doom.yml
+  
+  # vars:
+  #   # instruqt_tf_build: test_terra_nuno4
+  #   # working_dir: /tmp/srv
+  #   # survey_j2: survey_spec.json.j2
+  #   # survey_file: remove_vm_survey.json
 
   tasks:
 
