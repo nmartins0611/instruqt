@@ -85,63 +85,46 @@
         mode: 0644
         content: "http://{{ student_user }}:{{ student_password }}@{{ 'gitea:3000' | urlencode }}"
 
-     - name: Configure git username
-       community.general.git_config:
-        name: user.name
-        scope: global
-        value: "{{ ansible_user }}"
+     - name: Configure Git details
+       shell: git config --global user.name "nuno.martins" && git config --global user.email "nmartins@redhat.com"
 
-     - name: Configure git email address
-       community.general.git_config:
-        name: user.email
-        scope: global
-        value: "{{ ansible_user }}@local"
+     - name: Update Terraform build repo
+       ignore_errors: true 
+       shell: git add {{  my_terraform_build }} && git commit -m "Adding Terraform Build" && git push
+       args:
+         chdir: /tmp/srv
+       tags:
+         - sync
 
-     - name: Add remote origin to repo
-       ansible.builtin.command:
-        cmd: "{{ item }}"
-        chdir: "/tmp/terraform_builds"   
-       register: __output
-       changed_when: __output.rc == 0
-       loop:
-         - "git remote add origin http://gitea:3000/{{ student_user }}/terraform_builds.git"
-         - "git checkout -b main"
-         - "git add ."
-         - "git commit -m'Initial commit'"
-         - "git push -u origin main --force"
+     - name: Updating Terraform Build list 
+       block:  
+        - name:
+          command: "ls {{ working_dir }}"
+          register: dir_out
 
+        - debug: var={{item}}
+          with_items: dir_out.stdout_lines
 
+        - name: Creating Survey spec
+          template:
+            src: "{{ survey_j2 }}"
+            dest: "{{ working_dir }}/{{ survey_file }}"
 
+        - name: Formating list
+          register: slurpfile
+          slurp:
+             src: "{{ working_dir }}/{{ survey_file }}"
 
-    #  - name: Updating Terraform Build list 
-    #    block:  
-    #     - name:
-    #       command: "ls {{ working_dir }}"
-    #       register: dir_out
+        - name: Encoding Survey list
+          debug:
+            var: slurpfile['content'] | b64decode
 
-    #     - debug: var={{item}}
-    #       with_items: dir_out.stdout_lines
-
-    #     - name: Creating Survey spec
-    #       template:
-    #         src: "{{ survey_j2 }}"
-    #         dest: "{{ working_dir }}/{{ survey_file }}"
-
-    #     - name: Formating list
-    #       register: slurpfile
-    #       slurp:
-    #          src: "{{ working_dir }}/{{ survey_file }}"
-
-    #     - name: Encoding Survey list
-    #       debug:
-    #         var: slurpfile['content'] | b64decode
-
-    #     - name: Creating Workflow with Survey
-    #       awx.awx.workflow_job_template:
-    #         name: "Remove Terraform Manifest"
-    #         organization: "ACME"
-    #         state: present
-    #         tower_config_file: "tower_cli.cfg"
-    #         inventory: "terraform_nodes_aws"
-    #         survey: "{{ slurpfile['content'] | b64decode }}"
-    #         survey_enabled: true
+        - name: Creating Workflow with Survey
+          awx.awx.workflow_job_template:
+            name: "Remove Terraform Manifest"
+            organization: "ACME"
+            state: present
+            tower_config_file: "tower_cli.cfg"
+            inventory: "terraform_nodes_aws"
+            survey: "{{ slurpfile['content'] | b64decode }}"
+            survey_enabled: true

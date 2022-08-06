@@ -1,0 +1,90 @@
+---
+- name: Removing Instance and Terraform Build
+  hosts: localhost
+  connection: local
+  #gather_facts: true
+  #become: true
+  vars:
+    my_terraform_build: test_terra_nuno4
+    working_dir: /tmp/srv
+    survey_j2: survey_spec.json.j2
+    survey_file: remove_vm_survey.json
+
+  tasks:
+
+    - name: Clone chosen Terraform Manifests and build
+      ansible.builtin.git:
+        repo: http://nmartins0611:6P45GGjNsURT-w6N2znU@gitlab.prometheus.io/nmartins0611/aws_terraform_builds.git
+        dest: /tmp/srv
+        clone: yes
+
+    - name: Destroy IaC
+      block:
+        - name: Decrypting variables and sensitive information
+          command: ansible-vault decrypt /{{ working_dir }}/{{ my_terraform_build }}/variables.tf --vault-password-file /opt/keep_secrets.txt
+
+        - name: Initialize Terraform Provider
+          community.general.terraform:
+            project_path: /{{ working_dir }}/{{  my_terraform_build }}
+            state: absent
+            force_init: true
+
+        - name: Destroy Terraform Instance
+          community.general.terraform:
+            project_path: /{{ working_dir }}/{{ my_terraform_build }}
+            state: absent
+     
+    - name: Configure Git details
+      shell: git config --global user.name "nuno.martins" && git config --global user.email "nmartins@redhat.com"
+
+    - name: Update Terraform build
+      ignore_errors: true 
+      shell: git add *
+      args:
+        chdir: /tmp/srv
+    
+    - name: Remove Terraform files and update Git 
+      ignore_errors: true 
+      shell: git rm -r --cached {{ my_terraform_build }} && git commit -m "Cleaning Terraform Build" && git push
+      args:
+        chdir: /tmp/srv
+
+    - name: Remove local cached files
+      ansible.builtin.file:
+        path: "{{ working_dir }}/{{ my_terraform_build }}"
+        state: absent
+
+###########################
+
+    - name: Updating Terraform Build list 
+      block:  
+        - name:
+          command: "ls {{ working_dir }}"
+          register: dir_out
+
+        - debug: var={{item}}
+          with_items: dir_out.stdout_lines
+
+        - name: Creating Survey spec
+          template:
+            src: "{{ survey_j2 }}"
+            dest: "{{ working_dir }}/{{ survey_file }}"
+
+        - name: Ensure survey file is loaded in memory
+          register: slurpfile
+          slurp:
+             src: "{{ working_dir }}/{{ survey_file }}"
+
+        - name: Ensure survey is slurped for base64 encoding
+          debug:
+            var: slurpfile['content'] | b64decode
+
+        - name: Ensure survey is associated with job template
+          awx.awx.workflow_job_template:
+            name: "Remove Terraform Manifest"
+            organization: "TMM-acme"
+            state: present
+            tower_config_file: "tower_cli.cfg"
+            inventory: "terraform_nodes_aws"
+            survey: "{{ slurpfile['content'] | b64decode }}"
+            survey_enabled: true
