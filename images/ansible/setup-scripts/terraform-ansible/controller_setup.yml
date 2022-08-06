@@ -203,20 +203,22 @@
         - controller-config
         - controller-objects
 
-    # - name: Add an inventory source
-    #   awx.awx.inventory_source:
-    #    name: "aws-source"
-    #    description: AWS inventory source
-    #    inventory: "ACME AWS"
-    #    credential: "AWS"
-    #    overwrite: True
-    #    update_on_launch: True
-    #    organization: Default
-    #    source: ec2
-    #    source_vars:
-    #     private: false
-    #    controller_oauthtoken: "{{ auth_token }}"
-    #    validate_certs: false
+    - name: Add an inventory source
+      awx.awx.inventory_source:
+        name: "aws-source"
+        description: AWS inventory source
+        inventory: "ACME AWS"
+        credential: "AWS"
+        overwrite: True
+        update_on_launch: True
+   #     organization: Default
+        source: ec2
+        source_vars:
+         private: false
+        controller_oauthtoken: "{{ auth_token }}"
+        validate_certs: false
+      tags:
+        - inv
 
 #     - name: Create job templates
 #       awx.awx.job_template:
