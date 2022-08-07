@@ -211,7 +211,7 @@
         credential: "AWS"
         overwrite: True
         update_on_launch: True
-   #     organization: Default
+        organization: "ACME Corp"
         source: ec2
         source_vars:
          private: false
