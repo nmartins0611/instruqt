@@ -215,8 +215,8 @@
         source: ec2
         source_vars:
          private: false
-        controller_oauthtoken: "{{ auth_token }}"
-        validate_certs: false
+   #     controller_oauthtoken: "{{ auth_token }}"
+   #     validate_certs: false
       tags:
         - inv
 
