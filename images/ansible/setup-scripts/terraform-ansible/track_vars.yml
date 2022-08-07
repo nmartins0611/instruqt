@@ -20,7 +20,7 @@ default_tag_name: "0.0.1"
 
 
 # Controller objects
-lab_credential_name: "ACME Corp Machine Credential"
+lab_credential_name: "AWS"
 lab_organization: "ACME Corp"
 lab_project_name: "ACME Corp Repo"
 lab_inventories:
@@ -33,7 +33,7 @@ lab_hosts:
       ansible_host: controller 
       ansible_python_interpreter: /usr/bin/python3
       ansible_host_key_checking: false
-      # ansible_connection: local
+      # ansible_connection: local    
   - lab_host_name: "web1.acme.example.com"
     lab_host_inventory: "ACME Corp DC"
     lab_host_vars:
@@ -156,3 +156,6 @@ controller_user_vars:
     role: execute
     workflows: "DevOps Workflow"
     state: present
+
+tf_inventory: "ACME AWS"
+tf_playbook: "create_tf_instance.yml"

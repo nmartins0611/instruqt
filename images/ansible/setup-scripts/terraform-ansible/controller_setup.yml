@@ -220,27 +220,19 @@
       tags:
         - inv
 
-#     - name: Create job templates
-#       awx.awx.job_template:
-#         name: "Deploy Instance with Terraform"
-#         state: present
-#         execution_environment: "ACME Terraform EE"
-#         become_enabled: "{{ item.jt_become }}"
-#         project: "{{ lab_project_name }}"
-#         credential: "{{ lab_credential_name }}"
-#         inventory: "{{  item.jt_inventory }}"
-#         playbook: "{{ item.jt_playbook }}"
-#  #       survey_enabled: "{{ item.survey_enabled | default( omit ) }}"
-#  #       survey_spec: "{{ item.survey_spec | default(omit) }}"
-#  #       ask_inventory_on_launch: "{{  item.jt_prompt_inventory }}"
-#  #       ask_variables_on_launch: "{{  item.jt_prompt_inventory | default( omit )}}"
-#  #       extra_vars: "{{ item.jt_extra_vars | default( omit ) }}"
-#         controller_oauthtoken: "{{ auth_token }}"
-#         validate_certs: false
-#  #     loop: "{{ lab_job_templates }}"
-#   #    tags:
-#   #      - controller-config
-#   #      - controller-jts
+    - name: Create job templates
+      awx.awx.job_template:
+        name: "Deploy Instance with Terraform"
+        state: present
+        execution_environment: "ACME Terraform EE"
+        become_enabled: "{{ item.jt_become }}"
+        project: "{{ lab_project_name }}"
+        credential: "{{ lab_credential_name }}"
+        inventory: "{{  tf_inventory }}"
+        playbook: "{{ tf_playbook }}"
+        controller_oauthtoken: "{{ auth_token }}"
+        validate_certs: false
+
 
 #     - name: Create Workflows
 #       awx.awx.tower_workflow_job_template:
