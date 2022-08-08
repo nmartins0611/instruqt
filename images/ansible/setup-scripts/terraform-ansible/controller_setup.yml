@@ -225,7 +225,7 @@
         name: "Deploy Instance with Terraform"
         state: present
         execution_environment: "ACME Terraform EE"
-        become_enabled: "{{ item.jt_become }}"
+#become_enabled: "{{ item.jt_become }}"
         project: "{{ lab_project_name }}"
         credential: "{{ lab_credential_name }}"
         inventory: "{{  tf_inventory }}"
