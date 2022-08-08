@@ -220,18 +220,18 @@
       tags:
         - inv
 
-    # - name: Create job templates
-    #   awx.awx.job_template:
-    #     name: "Deploy Instance with Terraform"
-    #     state: present
-    #     execution_environment: "ACME Terraform EE"
-    #     become_enabled: "{{ item.jt_become }}"
-    #     project: "{{ lab_project_name }}"
-    #     credential: "{{ lab_credential_name }}"
-    #     inventory: "{{  tf_inventory }}"
-    #     playbook: "{{ tf_playbook }}"
-    #     controller_oauthtoken: "{{ auth_token }}"
-    #     validate_certs: false
+    - name: Create job templates
+      awx.awx.job_template:
+        name: "Deploy Instance with Terraform"
+        state: present
+        execution_environment: "ACME Terraform EE"
+        become_enabled: "{{ item.jt_become }}"
+        project: "{{ lab_project_name }}"
+        credential: "{{ lab_credential_name }}"
+        inventory: "{{  tf_inventory }}"
+        playbook: "{{ tf_playbook }}"
+        controller_oauthtoken: "{{ auth_token }}"
+        validate_certs: false
 
 
 #     - name: Create Workflows
