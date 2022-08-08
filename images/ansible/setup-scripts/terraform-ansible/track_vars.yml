@@ -20,7 +20,7 @@ default_tag_name: "0.0.1"
 
 
 # Controller objects
-lab_credential_name: "AWS"
+lab_credential_name: "aws_instance_cred"
 lab_organization: "ACME Corp"
 lab_project_name: "ACME Corp Repo"
 lab_inventories:
