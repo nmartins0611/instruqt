@@ -131,4 +131,3 @@
     #         inventory: "ACME AWS"
     #         survey: "{{ slurpfile['content'] | b64decode }}"
     #         survey_enabled: true
-
