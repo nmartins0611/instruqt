@@ -232,18 +232,18 @@
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
 
-    - name: Create Workflows
-      awx.awx.tower_workflow_job_template:
-        name: "Deployment Workflow"
-        inventory: "{{ tf_inventory }}"
-        organization:  "ACME Corp"
-        controller_oauthtoken: "{{ auth_token }}"
-        controller_host: "{{ controller_hostname }}"
-        validate_certs: "{{ controller_validate_certs }}"
-      loop: "{{ lab_devops_worklow }}"
-      tags:
-        - controller-config
-        - controller-workflows
+    # - name: Create Workflows
+    #   awx.awx.tower_workflow_job_template:
+    #     name: "Deployment Workflow"
+    #     inventory: "{{ tf_inventory }}"
+    #     organization:  "ACME Corp"
+    #     controller_oauthtoken: "{{ auth_token }}"
+    #     controller_host: "{{ controller_hostname }}"
+    #     validate_certs: "{{ controller_validate_certs }}"
+    #   loop: "{{ lab_devops_worklow }}"
+    #   tags:
+    #     - controller-config
+    #     - controller-workflows
 
     - name: Create student admin user
       awx.awx.user:
@@ -257,4 +257,3 @@
       tags:
         - controller-config
         - controller-users
-
