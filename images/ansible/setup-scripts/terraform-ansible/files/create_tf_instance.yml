@@ -99,36 +99,36 @@
        tags:
          - sync
 
-     - name: Updating Terraform Build list 
-       block:  
-        - name:
-          command: "ls {{ working_dir }}"
-          register: dir_out
+    #  - name: Updating Terraform Build list 
+    #    block:  
+    #     - name:
+    #       command: "ls {{ working_dir }}"
+    #       register: dir_out
 
-        - debug: var={{item}}
-          with_items: dir_out.stdout_lines
+    #     - debug: var={{item}}
+    #       with_items: dir_out.stdout_lines
 
-        - name: Creating Survey spec
-          template:
-            src: "{{ survey_j2 }}"
-            dest: "{{ working_dir }}/{{ survey_file }}"
+    #     - name: Creating Survey spec
+    #       template:
+    #         src: "{{ survey_j2 }}"
+    #         dest: "{{ working_dir }}/{{ survey_file }}"
 
-        - name: Formating list
-          register: slurpfile
-          slurp:
-             src: "{{ working_dir }}/{{ survey_file }}"
+    #     - name: Formating list
+    #       register: slurpfile
+    #       slurp:
+    #          src: "{{ working_dir }}/{{ survey_file }}"
 
-        - name: Encoding Survey list
-          debug:
-            var: slurpfile['content'] | b64decode
+    #     - name: Encoding Survey list
+    #       debug:
+    #         var: slurpfile['content'] | b64decode
 
-        - name: Creating Workflow with Survey
-          awx.awx.workflow_job_template:
-            name: "Remove Terraform Manifest"
-            organization: "ACME Corp"
-            state: present
-            tower_config_file: "controller.cfg"
-            inventory: "ACME AWS"
-            survey: "{{ slurpfile['content'] | b64decode }}"
-            survey_enabled: true
+    #     - name: Creating Workflow with Survey
+    #       awx.awx.workflow_job_template:
+    #         name: "Remove Terraform Manifest"
+    #         organization: "ACME Corp"
+    #         state: present
+    #         tower_config_file: "controller.cfg"
+    #         inventory: "ACME AWS"
+    #         survey: "{{ slurpfile['content'] | b64decode }}"
+    #         survey_enabled: true
 
