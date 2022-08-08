@@ -159,3 +159,4 @@ controller_user_vars:
 
 tf_inventory: "ACME AWS"
 tf_playbook: "create_tf_instance.yml"
+tf_lab_credential_name : "AWS"

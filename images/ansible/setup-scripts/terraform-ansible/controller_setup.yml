@@ -225,30 +225,25 @@
         name: "Deploy Instance with Terraform"
         state: present
         execution_environment: "ACME Terraform EE"
-#become_enabled: "{{ item.jt_become }}"
         project: "{{ lab_project_name }}"
-        credential: "{{ lab_credential_name }}"
+        credential: "{{ tf_lab_credential_name }}"
         inventory: "{{  tf_inventory }}"
         playbook: "{{ tf_playbook }}"
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
 
-
-#     - name: Create Workflows
-#       awx.awx.tower_workflow_job_template:
-#         name: "{{ item.workflow_name }}"
-#         inventory: "{{ item.workflow_inventory }}"
-#         extra_vars: "{{ item.workflow_vars | default( omit ) }}"
-#         ask_variables_on_launch: "{{ item.workflow_prompt_vars | default( true ) }}"
-#         organization:  "{{ item.workflow_org }}"
-#         schema: "{{ item.workflow_schema | default( omit )}}"
-#         controller_oauthtoken: "{{ auth_token }}"
-#         controller_host: "{{ controller_hostname }}"
-#         validate_certs: "{{ controller_validate_certs }}"
-#       loop: "{{ lab_devops_worklow }}"
-#       tags:
-#         - controller-config
-#         - controller-workflows
+    - name: Create Workflows
+      awx.awx.tower_workflow_job_template:
+        name: "Deployment Workflow"
+        inventory: "{{ tf_inventory }}"
+        organization:  "ACME Corp"
+        controller_oauthtoken: "{{ auth_token }}"
+        controller_host: "{{ controller_hostname }}"
+        validate_certs: "{{ controller_validate_certs }}"
+      loop: "{{ lab_devops_worklow }}"
+      tags:
+        - controller-config
+        - controller-workflows
 
     - name: Create student admin user
       awx.awx.user:
@@ -262,18 +257,4 @@
       tags:
         - controller-config
         - controller-users
-
-#     - name: Add lab inventories
-#       awx.awx.inventory:
-#         name: "{{ item.name }}"
-#         description: "{{ item.description }}"
-#         organization: "{{ lab_organization }}"
-#         state: present
-#         controller_oauthtoken: "{{ auth_token }}"
-#         validate_certs: false
-#       loop: "{{ lab_inventories }}"
-#       tags:
-#         - controller-config
-#         - controller-objects
-
 
