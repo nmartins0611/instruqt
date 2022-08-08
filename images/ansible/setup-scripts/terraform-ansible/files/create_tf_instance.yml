@@ -127,10 +127,11 @@
             name: "Remove Terraform Manifest"
             organization: "ACME Corp"
             state: present
-            tower_config_file: "controller.cfg"
+      #      tower_config_file: "controller.cfg"
             inventory: "ACME AWS"
             survey: "{{ slurpfile['content'] | b64decode }}"
             survey_enabled: true
+            controller_host: localhost
             controller_username: admin
             controller_password: ansible123!
-            
+
