@@ -250,18 +250,18 @@
 #         - controller-config
 #         - controller-workflows
 
-#     - name: Create student admin user
-#       awx.awx.user:
-#         superuser: true
-#         username: "{{ student_user }}"
-#         password: "{{ student_password }}"
-#         email: student@acme.example.com
-#         controller_oauthtoken: "{{ auth_token }}"
-#         controller_host: "{{ controller_hostname }}"
-#         validate_certs: "{{ controller_validate_certs }}"
-#       tags:
-#         - controller-config
-#         - controller-users
+    - name: Create student admin user
+      awx.awx.user:
+        superuser: true
+        username: "{{ student_user }}"
+        password: "{{ student_password }}"
+        email: student@acme.example.com
+        controller_oauthtoken: "{{ auth_token }}"
+        controller_host: "{{ controller_hostname }}"
+        validate_certs: "{{ controller_validate_certs }}"
+      tags:
+        - controller-config
+        - controller-users
 
 #     - name: Add lab inventories
 #       awx.awx.inventory:
