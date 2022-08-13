@@ -3,6 +3,9 @@
   hosts: localhost
   gather_facts: true
 
+  vars: 
+    aws_id:
+
   tasks:
 
     - name: Ensure Region is set
@@ -15,3 +18,17 @@
     - name: 
       debug:
         msg: "{{ aws_instances }}"
+
+    - name: Get Instance details
+      command: aws ec2 describe-instances --instance-id "{{ aws_id }}"
+      register: aws_id_details
+      tags: 
+       - details
+       - never
+
+    - name: 
+      debug:
+        msg: "{{ aws_id_details }}"
+      tags: 
+        - details
+        - never
