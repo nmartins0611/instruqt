@@ -259,7 +259,7 @@
 
     - name: Grab the rsa
       ansible.builtin.set_fact:
-        controller_ssh: "{{ lookup('file', '/home/rhel/.ssh/id_rsa') }}"
+        controller_ssh: "{{ lookup('file', '/home/rhel/.ssh/id_rsa.pub') }}"
 
     - name: Create cloud-init for lab
       template:
