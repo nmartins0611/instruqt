@@ -220,7 +220,7 @@
       tags:
         - inv
 
-    - name: Create job templates
+    - name: Create create job templates
       awx.awx.job_template:
         name: "Deploy Instance with Terraform"
         state: present
@@ -229,6 +229,18 @@
         credential: "{{ tf_lab_credential_name }}"
         inventory: "{{  tf_inventory }}"
         playbook: "{{ tf_playbook }}"
+        controller_oauthtoken: "{{ auth_token }}"
+        validate_certs: false
+
+    - name: Create remove job templates
+      awx.awx.job_template:
+        name: "Destroy Instance"
+        state: present
+        execution_environment: "ACME Terraform EE"
+        project: "{{ lab_project_name }}"
+        credential: "{{ tf_lab_credential_name }}"
+        inventory: "{{  tf_inventory }}"
+        playbook: "{{ tf_remove_playbook }}"
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
 
