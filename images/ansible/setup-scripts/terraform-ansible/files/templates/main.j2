@@ -112,7 +112,7 @@ resource "aws_security_group" "terraform_group" {
 resource "aws_instance" "basic_rhel" {
   ami           = "ami-06640050dc3f556bb"
   instance_type = "${var.instance_type}"  ## Survey - Add Instance type
-  user_data = file("./cloud-init.conf")   ## Add user data for the instance
+#  user_data = file("./cloud-init.conf")   ## Add user data for the instance  ### Uncomment Here
   tags = {
       Name = "${var.instance_names}"      ## Survey -  Add a tag for AWS
   }  
