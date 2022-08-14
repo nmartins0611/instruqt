@@ -264,6 +264,6 @@
     - name: Create cloud-init for lab
       template:
         src: cloud-init.j2
-        dest: /files/cloud-init.conf
+        dest: cloud-init.conf
 
         
