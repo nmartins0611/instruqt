@@ -6,7 +6,7 @@ sudo yum -y install terraform
 # Configure gitea and repo for builds
 ansible-playbook /tmp/setup-scripts/terraform-ansible/gitea_setup.yml -e @/tmp/setup-scripts/terraform-ansible/track_vars.yml -i /tmp/setup-scripts/terraform-ansible/inventory.ini
 
-# Configure Rrepo for builds
+# Configure Repo for builds
 ansible-playbook /tmp/setup-scripts/terraform-ansible/gitea_build.yml -e @/tmp/setup-scripts/terraform-ansible/track_vars.yml -i /tmp/setup-scripts/terraform-ansible/inventory.ini
 
 # Configure controller environment 

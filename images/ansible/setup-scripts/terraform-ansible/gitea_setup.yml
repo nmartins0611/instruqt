@@ -94,6 +94,15 @@
         src: /tmp/setup-scripts/terraform-ansible/files/terraform_files.tar.gz
         dest: "/tmp/terraform_lab/"
 
+    - name: Grab the rsa
+      ansible.builtin.set_fact:
+        controller_ssh: "{{ lookup('file', '/home/rhel/.ssh/id_rsa.pub') }}"
+
+    - name: Create cloud-init for lab
+      template:
+        src: cloud-init.j2
+        dest: /tmp/terraform_lab/cloud-init.conf
+
     - name: Add remote origin to repo
       ansible.builtin.command:
         cmd: "{{ item }}"
