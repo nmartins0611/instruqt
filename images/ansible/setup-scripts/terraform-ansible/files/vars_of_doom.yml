@@ -1,7 +1,7 @@
 instance_type: 
 instance_name: 
-terraform_sec: 
-instruqt_tf_build: myTest5
+instance_sec: 
+instruqt_tf_build: myDemoDefault
 working_dir: /tmp/srv/
 templates_dir: /tmp/template
 survey_j2: survey_spec.json.j2
