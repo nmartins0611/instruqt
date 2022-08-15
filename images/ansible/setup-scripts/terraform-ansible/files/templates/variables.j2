@@ -7,3 +7,7 @@ variable "instance_name" {
 variable "instance_type" {
   default = "{{ instance_type }}" # AWS Instance type
 }
+variable "private_ip_address" {
+  type    = string
+  default = "10.20.20.120"
+}
