@@ -19,13 +19,13 @@
 
         - name: Initialize Terraform Provider
           community.general.terraform:
-            project_path: /{{ working_dir }}/{{  my_terraform_build }}
+            project_path: /{{ working_dir }}/{{  instruqt_tf_build }}
             state: absent
             force_init: true
 
         - name: Destroy Terraform Instance
           community.general.terraform:
-            project_path: /{{ working_dir }}/{{ my_terraform_build }}
+            project_path: /{{ working_dir }}/{{ instruqt_tf_build }}
             state: absent
      
     - name: Configure git to store credentials
@@ -51,13 +51,13 @@
 
     - name: Remove Terraform files and update Git 
       ignore_errors: true 
-      shell: git rm -r --cached {{ my_terraform_build }} && git commit -m "Cleaning Terraform Build" && git push
+      shell: git rm -r --cached {{ instruqt_tf_build }} && git commit -m "Cleaning Terraform Build" && git push
       args:
         chdir: /tmp/srv
 
     - name: Remove local cached files
       ansible.builtin.file:
-        path: "{{ working_dir }}/{{ my_terraform_build }}"
+        path: "{{ working_dir }}/{{ instruqt_tf_build }}"
         state: absent
 
     - name: Updating Terraform Build list 

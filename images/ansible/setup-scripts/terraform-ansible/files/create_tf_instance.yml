@@ -58,6 +58,10 @@
             state: present
            register: deployed_tf
 
+     - name: Allowing AWS time to spin up instance
+       ansible.builtin.pause:
+        minutes: 1
+
      - name: Configure git to store credentials
        community.general.git_config:
         name: credential.helper
