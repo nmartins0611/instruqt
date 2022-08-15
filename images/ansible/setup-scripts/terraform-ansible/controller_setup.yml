@@ -153,10 +153,12 @@
 
     - name: Add the lab ssh credential
       awx.awx.credential:
-        name: "{{ lab_credential_name }}"
+        name: "{{ tf_lab_credential_name }}"
         organization: "{{ lab_organization }}"
         credential_type: Machine
         inputs:
+          username: ec2-user
+          become_username: ansible
           ssh_key_data: "{{ lookup('file', '/home/rhel/.ssh/id_rsa') }}"
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
@@ -213,8 +215,11 @@
         update_on_launch: True
         organization: "ACME Corp"
         source: ec2
-        source_vars:
-          private: false
+        source_vars: |
+          region:
+            us-east-1
+          compose:
+           ansible_host: public_ip_address
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
       tags:
