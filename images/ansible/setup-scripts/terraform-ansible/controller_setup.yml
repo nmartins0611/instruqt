@@ -158,7 +158,8 @@
         credential_type: Machine
         inputs:
           username: ec2-user
-          become_username: ansible
+          become_username: root
+          become_method: sudo
           ssh_key_data: "{{ lookup('file', '/home/rhel/.ssh/id_rsa') }}"
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
@@ -216,6 +217,10 @@
         organization: "ACME Corp"
         source: ec2
         source_vars:
+          region:
+            - us-east-1
+          compose:
+            ansible_host: public_ip_address
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
       tags:
@@ -243,6 +248,7 @@
         inventory: "{{  tf_inventory }}"
         playbook: "rhel_update.yml"
         controller_oauthtoken: "{{ auth_token }}"
+        become_enabled: yes
         validate_certs: false
 
     - name: Create remove job templates

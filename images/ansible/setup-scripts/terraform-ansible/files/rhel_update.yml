@@ -2,6 +2,7 @@
 - name: Update Systems
   hosts: aws_ec2
   gather_facts: true
+  
 
   tasks:
   
@@ -12,9 +13,9 @@
       become: true
       ignore_errors: True
   
-    - name: Update RHEL Nodes
-      yum: 
-       name: '*'
-       state: latest
-      become: true
-      ignore_errors: True
+    # - name: Update RHEL Nodes
+    #   yum: 
+    #    name: '*'
+    #    state: latest
+    #   become: true
+    #   ignore_errors: True
