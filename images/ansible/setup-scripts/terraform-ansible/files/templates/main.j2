@@ -55,7 +55,7 @@ resource "aws_eip" "ip-one" {
 }
 
 resource "aws_security_group" "web-pub-sg" {
-  name        = "${var.instance_sec}"                ### Survey
+  name        = "${var.aws_security_group}"                ### Survey
   description = "allow inbound traffic"
   vpc_id      = aws_vpc.this.id
 
