@@ -153,7 +153,7 @@
 
     - name: Add the lab ssh credential
       awx.awx.credential:
-        name: "{{ tf_lab_credential_name }}"
+        name: "Terraform_instances"
         organization: "{{ lab_organization }}"
         credential_type: Machine
         inputs:
