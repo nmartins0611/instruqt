@@ -217,7 +217,8 @@
         source: ec2
         source_vars:
           region: us-east-1
-          compose: ansible_host: public_ip_address
+          compose: 
+          ansible_host: public_ip_address
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
       tags:
