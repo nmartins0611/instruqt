@@ -216,10 +216,6 @@
         organization: "ACME Corp"
         source: ec2
         source_vars:
-         #private: false
-          region: us-east-1
-          compose: 
-          ansible_host: public_ip_address
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
       tags:
@@ -234,6 +230,18 @@
         credential: "{{ tf_lab_credential_name }}"
         inventory: "{{  tf_inventory }}"
         playbook: "{{ tf_playbook }}"
+        controller_oauthtoken: "{{ auth_token }}"
+        validate_certs: false
+
+    - name: Create create Update templates
+      awx.awx.job_template:
+        name: "Update and Install Web"
+        state: present
+        execution_environment: "ACME Terraform EE"
+        project: "{{ lab_project_name }}"
+        credential: "Terraform_instances"
+        inventory: "{{  tf_inventory }}"
+        playbook: "rhel_update.yml"
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
 
