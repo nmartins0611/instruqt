@@ -1,119 +1,91 @@
-# Use AWS provider for Terraform
-
 provider "aws" {
-  region = "us-east-1"
+  region     = "us-east-1"
 }
 
-# Create the VPC
+resource "aws_vpc" "this" {
+  cidr_block = "10.20.20.0/25"
+  tags = {
+    "Name" = "Application-1"
+  }
+}
+resource "aws_subnet" "private" {
+  vpc_id            = aws_vpc.this.id
+  cidr_block        = "10.20.20.0/26"
+  availability_zone = "us-east-1a"
 
- resource "aws_vpc" "Main" {               
-   cidr_block       = var.main_vpc_cidr     
-   instance_tenancy = "default"
- }
+}
+resource "aws_subnet" "public" {
+  vpc_id            = aws_vpc.this.id
+  cidr_block        = "10.20.20.64/26"
+  availability_zone = "us-east-1a"
 
- # Create gateway
+}
+resource "aws_route_table" "this-rt" {
+  vpc_id = aws_vpc.this.id
 
- resource "aws_internet_gateway" "gateway" {    
-    vpc_id =  aws_vpc.Main.id           
- }
- 
- # Create external subnet
+}
+resource "aws_route_table_association" "public" {
+  subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.this-rt.id
+}
+resource "aws_route_table_association" "private" {
+  subnet_id      = aws_subnet.private.id
+  route_table_id = aws_route_table.this-rt.id
+}
+resource "aws_internet_gateway" "this-igw" {
+  vpc_id = aws_vpc.this.id
+  
+}
+resource "aws_route" "internet-route" {
+  destination_cidr_block = "0.0.0.0/0"
+  route_table_id         = aws_route_table.this-rt.id
+  gateway_id             = aws_internet_gateway.this-igw.id
+}
+resource "aws_network_interface" "this-nic" {
+  subnet_id       = aws_subnet.public.id
+  private_ips     = [var.private_ip_address]
+  security_groups = [aws_security_group.web-pub-sg.id]
 
- resource "aws_subnet" "external_subnet" {   
-   vpc_id =  aws_vpc.Main.id
-   cidr_block = "${var.external_subnet}"      
- }
- 
- # Create internal subnet 
+}
 
- resource "aws_subnet" "internal_subnet" {
-   vpc_id =  aws_vpc.Main.id
-   cidr_block = "${var.internal_subnet}"          
- }
- 
-# Routing table for external
+resource "aws_eip" "ip-one" {
+  vpc                       = true
+  network_interface         = aws_network_interface.this-nic.id
 
- resource "aws_route_table" "routing_external" {   
-    vpc_id =  aws_vpc.Main.id
-         route {
-    cidr_block = "0.0.0.0/0"              
-    gateway_id = aws_internet_gateway.gateway.id
-     }
- }
- 
- # Routing table for internal
+}
 
- resource "aws_route_table" "routing_internal" {   
-   vpc_id = aws_vpc.Main.id
-   route {
-   cidr_block = "0.0.0.0/0"             
-   nat_gateway_id = aws_nat_gateway.nat.id
-   }
- }
- 
- # Routing association for external
-
- resource "aws_route_table_association" "external_association" {
-    subnet_id = aws_subnet.external_subnet.id
-    route_table_id = aws_route_table.routing_external.id
- }
-
- # Routing association for internal
-
- resource "aws_route_table_association" "internal_association" {
-    subnet_id = aws_subnet.internal_subnet.id
-    route_table_id = aws_route_table.routing_internal.id
- }
-
- resource "aws_eip" "nateIP" {
-   vpc   = true
- }
-
- # Resource for NAT 
-
- resource "aws_nat_gateway" "nat" {
-   allocation_id = aws_eip.nateIP.id
-   subnet_id = aws_subnet.external_subnet.id
- }
-
-# Creating Security group
-
-resource "aws_security_group" "terraform_group" {
-  name        = "${var.aws_security_group}"  ## Survey - Add Security Group
-  vpc_id      = aws_vpc.Main.id
-
-  ## SSH access from anywhere
+resource "aws_security_group" "web-pub-sg" {
+  name        = "${var.instance_sec}"                ### Survey
+  description = "allow inbound traffic"
+  vpc_id      = aws_vpc.this.id
 
   ingress {
-    from_port   = 22
-    to_port     = 22
+    description = "from my ip range"
+    from_port   = "22"
+    to_port     = "22"
     protocol    = "tcp"
-    cidr_blocks     = ["0.0.0.0/0"]
-  
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = "0"
+    protocol    = "-1"
+    to_port     = "0"
   }
 
-  ## Custom Port option
-
-  ingress {                                ## Survey - Add custom port
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks     = ["0.0.0.0/0"]
-  }
-
-    egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
-    }
 }
 
-resource "aws_instance" "basic_rhel" {
+resource "aws_instance" "app-server" {
+  instance_type = "${var.instance_type}"
   ami           = "ami-06640050dc3f556bb"
-  instance_type = "${var.instance_type}"  ## Survey - Add Instance type
-#  user_data = file("./cloud-init.conf")   ## Add user data for the instance  ### Uncomment Here
+  network_interface {
+    network_interface_id = aws_network_interface.this-nic.id
+    device_index         = 0
+delete_on_termination = false
+  }
+  key_name = "controller_ssh"
   tags = {
-      Name = "${var.instance_names}"      ## Survey -  Add a tag for AWS
-  }  
+      Name = "${var.instance_name}"
+      }
+
 }
