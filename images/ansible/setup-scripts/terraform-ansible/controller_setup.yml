@@ -216,10 +216,10 @@
         organization: "ACME Corp"
         source: ec2
         source_vars:
-         private: false
-          #region: us-east-1
-          #compose: 
-          #ansible_host: public_ip_address
+         #private: false
+          region: us-east-1
+          compose: 
+          ansible_host: public_ip_address
         controller_oauthtoken: "{{ auth_token }}"
         validate_certs: false
       tags:
