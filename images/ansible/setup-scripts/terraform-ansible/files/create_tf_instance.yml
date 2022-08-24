@@ -81,7 +81,7 @@
         content: "http://{{ student_user }}:{{ student_password }}@{{ 'gitea:3000' | urlencode }}"
 
      - name: Configure Git details
-       shell: git config --global user.name "nuno.martins" && git config --global user.email "nmartins@redhat.com"
+       shell: git config --global user.name "student" && git config --global user.email "student@acme.com"
 
      - name: Update Terraform build repo
        ignore_errors: true 
