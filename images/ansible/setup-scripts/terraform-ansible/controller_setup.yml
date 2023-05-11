@@ -129,7 +129,7 @@
     - name: Add Instruqt Terraform EE
       awx.awx.execution_environment:
         name: "{{ controller_devops_ee }}"
-        image: "quay.io/acme_corp/terraform_ee"
+        image: "quay.io/nmartins/terraform_ee"
         pull: missing
         state: present
         controller_oauthtoken: "{{ auth_token }}"
