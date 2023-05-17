@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export AWS_DEFAULT_REGION=us-east-1
+export AWS_DEFAULT_REGION=eu-west-2
 
 
 # Create default vpc
