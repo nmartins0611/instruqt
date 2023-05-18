@@ -152,17 +152,17 @@
  #       - controller-config
  #       - controller-ees
 
-    - name: Pull Instruqt Terraform EE
-      containers.podman.podman_image:
-        name: "quay.io/acme_corp/terraform_ee"
-      become_user: awx
-      register: podman_pull
-      until: podman_pull is not failed
-      retries: 5
-      delay: 15 
-      tags:
-        - controller-config
-        - controller-ees
+#    - name: Pull Instruqt Terraform EE
+#      containers.podman.podman_image:
+#        name: "quay.io/acme_corp/terraform_ee"
+#      become_user: awx
+#      register: podman_pull
+#      until: podman_pull is not failed
+#      retries: 5
+#      delay: 15 
+#      tags:
+#        - controller-config
+#        - controller-ees
 
     - name: Add the lab ssh credential
       awx.awx.credential:
