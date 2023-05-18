@@ -129,19 +129,6 @@
     - name: Add Instruqt Terraform EE
       awx.awx.execution_environment:
         name: "{{ controller_devops_ee }}"
-        image: "quay.io/acme_corp/terraform_ee"
-        pull: missing
-        state: present
-        controller_oauthtoken: "{{ auth_token }}"
-        controller_host: "{{ controller_hostname }}"
-        validate_certs: "{{ controller_validate_certs }}"
-      tags:
-        - controller-config
-        - controller-ees
-        
-    - name: Add Instruqt Terraform EE 02
-      awx.awx.execution_environment:
-        name: "dev_ee_terraform"
         image: "quay.io/nmartins/terraform_ee"
         pull: missing
         state: present
@@ -151,6 +138,19 @@
       tags:
         - controller-config
         - controller-ees
+        
+#    - name: Add Instruqt Terraform EE 02
+#      awx.awx.execution_environment:
+#        name: "dev_ee_terraform"
+#        image: "quay.io/nmartins/terraform_ee"
+#        pull: missing
+#        state: present
+#        controller_oauthtoken: "{{ auth_token }}"
+#        controller_host: "{{ controller_hostname }}"
+#        validate_certs: "{{ controller_validate_certs }}"
+ #     tags:
+ #       - controller-config
+ #       - controller-ees
 
     - name: Pull Instruqt Terraform EE
       containers.podman.podman_image:
