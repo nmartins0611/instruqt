@@ -5,7 +5,7 @@ provider "aws" {
 }
 
 resource "aws_instance" "basic_rhel" {
-  ami           = "ami-06640050dc3f556bb"
+  ami           = "ami-08d9bb4bfe39be5c2"
   instance_type = "t2.micro" 
 
   }  
